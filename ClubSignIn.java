@@ -47,7 +47,7 @@ public class ClubSignIn{
 
 		HashMap<String, Brother> attendanceMap = new HashMap<String, Brother>();
 		while(true){
-			System.out.println("Please enter your name to login\n(or type finalize to end event and print a report)");
+			System.out.println("Please enter your name to login or logout\n(or type finalize to end event and print a report)\n");
 			String enteredText = user.nextLine();
 			if(enteredText.compareTo("finalize") != 0){
 				// check if the name is logged in. If so log out
@@ -56,21 +56,21 @@ public class ClubSignIn{
 					String nameOrRelogIn = enteredText + " came back and";
 					Brother loggedInBrother = new Brother(nameOrRelogIn, loginTime);
 					attendanceMap.put(nameOrRelogIn, loggedInBrother);
-					System.out.println("Thank you, " + enteredText + ", you are logged IN again\n-----------\n");
+					System.out.println("\nThank you, " + enteredText + ", you are logged IN again\n\n-----------");
 				} else if (attendanceMap.containsKey(enteredText) && !attendanceMap.get(enteredText).isLoggedOut()){
 					Date logoutTime = new Date();
 					Brother loggingOutBrother = attendanceMap.get(enteredText);
 					loggingOutBrother.setLogoutTime(logoutTime);
 					attendanceMap.put(enteredText, loggingOutBrother);
-					System.out.println("Thank you, " + enteredText + ", you are now logged OUT\n-----------\n");
+					System.out.println("\nThank you, " + enteredText + ", you are now logged OUT\n\n-----------");
 				} else {
 					Date loginTime = new Date();
 					Brother loggedInBrother = new Brother(enteredText, loginTime);
 					attendanceMap.put(enteredText, loggedInBrother);
-					System.out.println("Thank you, " + enteredText + ", you are logged IN\n-----------\n");
+					System.out.println("\nThank you, " + enteredText + ", you are logged IN\n\n-----------");
 				}
 			} else {
-				System.out.println("Here is your attendance report for: " + eventName);
+				System.out.println("\nHere is your attendance report for: " + eventName);
 				for(String name : attendanceMap.keySet()){
 					Brother brotherToReport = attendanceMap.get(name);
 					if(!brotherToReport.isLoggedOut()){
@@ -82,7 +82,7 @@ public class ClubSignIn{
 					outTimeText = sdf.format(brotherToReport.getLogOutTime());
 					inTimeText = sdf.format(brotherToReport.getLogInTime());
 
-					System.out.println(brotherToReport.getBrotherName() + " was here from " + 
+					System.out.println("\n" + brotherToReport.getBrotherName() + " was here from " + 
 							inTimeText + " to " + outTimeText);
 				}
 				break;
