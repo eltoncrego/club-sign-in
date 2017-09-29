@@ -2,6 +2,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.text.SimpleDateFormat;
+import java.io.*;
 
 public class ClubSignIn{
 	
@@ -70,21 +71,45 @@ public class ClubSignIn{
 					System.out.println("\nThank you, " + enteredText + ", you are logged IN\n\n-----------");
 				}
 			} else {
-				System.out.println("\nHere is your attendance report for: " + eventName);
-				for(String name : attendanceMap.keySet()){
-					Brother brotherToReport = attendanceMap.get(name);
-					if(!brotherToReport.isLoggedOut()){
-						Date logOutTime = new Date();
-						brotherToReport.setLogoutTime(logOutTime);
-					}
-					String outTimeText, inTimeText;
-					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-					outTimeText = sdf.format(brotherToReport.getLogOutTime());
-					inTimeText = sdf.format(brotherToReport.getLogInTime());
 
-					System.out.println("\n" + brotherToReport.getBrotherName() + " was here from " + 
-							inTimeText + " to " + outTimeText);
+				try{
+				    PrintWriter writer = new PrintWriter(eventName+ ".txt", "UTF-8");
+				    writer.println("Here is your attendance report for: " + eventName);
+				    writer.println("--------------------------");
+				    for(String name : attendanceMap.keySet()){
+						Brother brotherToReport = attendanceMap.get(name);
+						if(!brotherToReport.isLoggedOut()){
+							Date logOutTime = new Date();
+							brotherToReport.setLogoutTime(logOutTime);
+						}
+						String outTimeText, inTimeText;
+						SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+						outTimeText = sdf.format(brotherToReport.getLogOutTime());
+						inTimeText = sdf.format(brotherToReport.getLogInTime());
+
+						writer.println(brotherToReport.getBrotherName() + " was here from " + 
+								inTimeText + " to " + outTimeText);
+					}
+				    writer.close();
+				} catch (IOException e) {
+				   // do something
 				}
+
+				System.out.println("Output written to: " + eventName);
+				// for(String name : attendanceMap.keySet()){
+				// 	Brother brotherToReport = attendanceMap.get(name);
+				// 	if(!brotherToReport.isLoggedOut()){
+				// 		Date logOutTime = new Date();
+				// 		brotherToReport.setLogoutTime(logOutTime);
+				// 	}
+				// 	String outTimeText, inTimeText;
+				// 	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+				// 	outTimeText = sdf.format(brotherToReport.getLogOutTime());
+				// 	inTimeText = sdf.format(brotherToReport.getLogInTime());
+
+				// 	System.out.println("\n" + brotherToReport.getBrotherName() + " was here from " + 
+				// 			inTimeText + " to " + outTimeText);
+				// }
 				break;
 			}
 		}
